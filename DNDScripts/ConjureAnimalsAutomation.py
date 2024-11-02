@@ -1,5 +1,5 @@
 
-from Beasts import Elk, Snake, Wolf, Rothe, GiantVulture, Velociraptor, Rhino
+from Beasts import ConstrictorSnake, Elk, GiantPoisonousSnake, Wolf, Rothe, GiantVulture, Velociraptor, Rhino
 import Colors
 
 
@@ -17,9 +17,9 @@ ATTACK_MAP = {
         "ram": lambda isAdv, count: Elk.getRamAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR),
         "hooves": lambda isAdv, count: Elk.getHoovesAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR),
     },
-    "snake": {
-        "constrict": lambda isAdv, count: Snake.getConstrictAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR),
-        "bite": lambda isAdv, count: Snake.getBiteAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR),
+    "csnake": {
+        "constrict": lambda isAdv, count: ConstrictorSnake.getConstrictAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR),
+        "bite": lambda isAdv, count: ConstrictorSnake.getBiteAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR),
     },
     "wolf": {
         "bite": lambda isAdv, count: Wolf.getBiteAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR)
@@ -35,7 +35,11 @@ ATTACK_MAP = {
     },
     "rhino": {
         "gore": lambda isAdv, count: Rhino.getGoreAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR)
+    },
+    "gpsnake": {
+        "bite": lambda isAdv, count: GiantPoisonousSnake.getBiteAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR)
     }
+
 
 
 }

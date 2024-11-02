@@ -14,7 +14,7 @@ def getConstrictAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR):
         hitDice = CRITICAL_HIT_TEXT
     else:
         hitDice = hitDice + toHit
-    print(f"{AUTOMATION_COLOUR}Snake {count} rolled {hitDice} for {damageDice} {damageType} damage{Colors.YELLOW} [on hit grapple + restrain (DC16 to escape)]{Colors.RESET}")
+    print(f"{AUTOMATION_COLOUR}Snake {count} rolled {Colors.YELLOW}{hitDice}{AUTOMATION_COLOUR} for {Colors.RED}{damageDice}{AUTOMATION_COLOUR} {damageType} damage{Colors.YELLOW} [on hit auto grapple + restrain (DC14 to escape)]{Colors.RESET}")
 
 
 def getBiteAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR):

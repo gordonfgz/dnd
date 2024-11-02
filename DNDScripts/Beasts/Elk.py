@@ -22,7 +22,7 @@ def getRamAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR):
         hitDice = hitDice + toHit
     print(f"{AUTOMATION_COLOUR}Elk {count} rolled {hitDice} for {damageDice} ({damageDice+chargeDamage}) {damageType} damage.{Colors.YELLOW} [on hit chance to prone (DC13 STR save)]{Colors.RESET}")
 
-def geHoovesAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR):
+def getHoovesAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR):
     # standard stuff
     damageType = "bludgeoning"
     toHit = 5
