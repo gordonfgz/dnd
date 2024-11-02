@@ -10,8 +10,8 @@ def getGoreAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR):
     damageDice = DiceRolls.rollDamage(2, DiceRolls.rollD, 8) + 5
     critDamage = DiceRolls.rollDamage(2, DiceRolls.rollD, 8)
     # special
-    chargeDamage = DiceRolls.rollD(6) + DiceRolls.rollD(6)
-    chargeCritDamage = CritDamageCalculator.calculateCritDamage(2, DiceRolls.rollD, 6)
+    chargeDamage = DiceRolls.rollDamage(2, DiceRolls.rollD, 8)
+    chargeCritDamage = DiceRolls.rollDamage(2, DiceRolls.rollD, 8)
     # checking crit
     if (hitDice == 20):
         damageDice += critDamage
