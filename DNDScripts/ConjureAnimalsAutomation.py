@@ -1,46 +1,105 @@
 
-import BeastAttacks
+from Beasts import Elk, Snake, Wolf, Rothe, GiantVulture, Velociraptor, Rhino
+import Colors
 
+
+# Contants
+AUTOMATION_COLOUR = Colors.GREEN
+CRITICAL_HIT_TEXT = f"{Colors.RED}NAT 20!!{AUTOMATION_COLOUR}"
+BUFFER_TEXT = f"Press ENTER or Input [adv/disadv] to generate next:"
+SEQUENCE_END_TEXT = f"{Colors.YELLOW}End of Sequence{Colors.RESET}"
+
+
+# Define maps for controlled inputs
+ATTACK_MAP = {
+
+    "elk": {
+        "ram": lambda isAdv, count: Elk.getRamAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR),
+        "hooves": lambda isAdv, count: Elk.getHoovesAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR),
+    },
+    "snake": {
+        "constrict": lambda isAdv, count: Snake.getConstrictAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR),
+        "bite": lambda isAdv, count: Snake.getBiteAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR),
+    },
+    "wolf": {
+        "bite": lambda isAdv, count: Wolf.getBiteAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR)
+    },
+    "rothe": {
+        "gore": lambda isAdv, count: Rothe.getGoreAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR)
+    },
+    "giantvulture": {
+        "multiattack": lambda isAdv, count: GiantVulture.getMultiAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR)
+    },
+    "velociraptor": {
+        "multiattack": lambda isAdv, count: Velociraptor.getMultiAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR)
+    },
+    "rhino": {
+        "gore": lambda isAdv, count: Rhino.getGoreAttack(isAdv, count, CRITICAL_HIT_TEXT, AUTOMATION_COLOUR)
+    }
+
+
+}
+
+VALID_ADV_INPUTS = {"adv", "disadv", ""}
+
+
+# Main Automation Sequence
 while True:
     # Prompt the user to enter the first number
-    userInput = str(input("Enter [beast] [attack] [count] [adv/disadv/none]: "))
+    userInput = str(input("Enter [beast] [attack]: "))
 
     if userInput.lower() == "":
         continue
 
     if userInput.lower() == 'list':
-        print("Elk: ram, hooves")
-        print("GiantVulture: multiattack")
-        print("Rothe: gore")
-        print("Snake: bite, constrict")
-        print("Wolf: bite")
+        for beast, attacks in ATTACK_MAP.items():
+            # Join the attack options into a string separated by commas
+            attack_list = ', '.join(attacks.keys())
+            # Print the beast name and its attack options
+            print(f"{beast.capitalize()}: {attack_list}")
         continue
-    if userInput.lower() == 'end':
+    if userInput.lower() == 'exit':
         break
 
     # Input seperation
     inputArray = userInput.split()
-    count = ""
-    adv = ""
+    if len(inputArray) < 2:
+        print ("You entered less than 2 words dumbass")
+        continue
     
     beast = inputArray[0].lower()
     attack = inputArray[1].lower()
-    if len(inputArray) > 2: count = inputArray[2].lower()
-    if len(inputArray) > 3: adv = inputArray[3].lower()
 
-    
-    print(f"Input: {userInput}")
-    if (beast == "wolf"):
-        BeastAttacks.getWolfBiteAttack(count, adv)
-    elif (beast == "snake"):
-        BeastAttacks.getSnakeAttack(attack)
-    elif (beast == "rothe"):
-        BeastAttacks.getRotheGoreAttack(count, adv)
-    elif (beast == "elk"):
-        BeastAttacks.getElkAttack(attack)
-    elif (beast == "giantvulture"):
-        BeastAttacks.getGiantVultureMultiAttack(count, adv)
-    else:
-        print(f"Beast: {beast} not recognised")
+    def invokeBeastAttackFunction(beast, attack, isAdv, count):
+        # retrieves the mapping of beast attacks 
+        beastAttackMap = ATTACK_MAP.get(beast)
+        # retrieves the specific function for the attack
+        attackFunction = beastAttackMap.get(attack)
+        # invokes the function by passing the other parameters into it
+        attackFunction(isAdv, count)
+
+    # Activating individual Beast Attacks
+    if (beast not in ATTACK_MAP): # error handling
+        print(f"{Colors.RED}Beast: {beast} not recognised{Colors.RESET}")
+        continue
+    beast_attack_map = ATTACK_MAP.get(beast)
+    if (attack not in beast_attack_map): # error handling
+        print(f"{Colors.RED}{beast} does not have an attack called: {attack}{Colors.RESET}")
+        continue
+
+    print(f"{Colors.BRIGHT_BLUE}Generating {Colors.RED}{beast} {attack}{Colors.BRIGHT_BLUE} Attacks{Colors.RESET}")
+    count = 1
+    while (True):
+        isAdv = str(input(BUFFER_TEXT))
+        isAdv = isAdv.lower()
+        if (isAdv == "exit"):
+            break
+        if (isAdv not in VALID_ADV_INPUTS):
+            print(f"isAdv value: {isAdv} not recognised, please try again!")
+            continue
+        invokeBeastAttackFunction(beast, attack, isAdv, count)
+        count += 1
+    print(SEQUENCE_END_TEXT)
+        
     
 print("Program ended")
