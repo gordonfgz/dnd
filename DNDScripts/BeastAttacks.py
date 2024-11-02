@@ -1,6 +1,18 @@
 import DiceRolls
 
+# ANSI escape codes for text colors
+RED = "\033[91m"
+GREEN = "\033[92m"
+YELLOW = "\033[93m"
+RESET = "\033[0m"  # Reset color back to default
 
+# Constants
+AUTOMATION_COLOUR = GREEN
+CRITICAL_HIT_TEXT = f"{RED}NAT 20!!{AUTOMATION_COLOUR}"
+BUFFER_TEXT = f"Press Enter to generate next:"
+SEQUENCE_END_TEXT = f"{YELLOW}End of Sequence{RESET}"
+
+# Functions
 def calculateCritDamage(reps, diceRollFunction, diceValue):
     damage = 0
     for _ in range(reps):
@@ -13,25 +25,29 @@ def getWolfBiteAttack(count, adv):
     damageType = "piercing"
     toHit = 4
     for i in range(count):
+        if (i != 0): str(input(BUFFER_TEXT))
         hitDice = DiceRolls.roll(20, adv)
         damageDice = DiceRolls.rollD(4) + DiceRolls.rollD(4) + 2
         critDamage = DiceRolls.rollD(4) + DiceRolls.rollD(4)
         if (hitDice == 20):
             damageDice = damageDice + calculateCritDamage(2, DiceRolls.rollD, 4)
-            hitDice = "A CRITICAL!!"
+            hitDice = CRITICAL_HIT_TEXT
         else:
             hitDice = hitDice + toHit
-        print(f"Wolf {i+1} rolled {hitDice} for {damageDice} {damageType} damage")
-    print("*Sequence Ended*")
+        print(f"{AUTOMATION_COLOUR}Wolf {i+1} rolled {hitDice} for {damageDice} {damageType} damage{RESET}")
+    print(SEQUENCE_END_TEXT)
             
 
-def getSnakeAttack(attack, count, adv):
+def getSnakeAttack(attack):
     print(f"*Generating Snake {attack} Attacks*")
-    count = int(count)
     damageType = ""
     toHit = 4
-    for i in range(count):
-        hitDice = DiceRolls.roll(20, adv)
+    i = 1
+    while (True):
+        userInput = str(input(BUFFER_TEXT))
+        if (userInput == "exit"):
+            break
+        hitDice = DiceRolls.roll(20, "none")
         damageDice = 0
         critDamage = 0
         if (attack == "constrict"):
@@ -47,11 +63,13 @@ def getSnakeAttack(attack, count, adv):
             return
         if (hitDice == 20):
             damageDice += critDamage
-            hitDice = "A CRITICAL!!"
+            hitDice = CRITICAL_HIT_TEXT
         else:
             hitDice = hitDice + toHit
-        print(f"Snake {i+1} rolled {hitDice} for {damageDice} {damageType} damage")
-    print("*Sequence Ended*")
+        
+        print(f"{AUTOMATION_COLOUR}Snake {i} rolled {hitDice} for {damageDice} {damageType} damage{RESET}")
+        i += 1
+    print(SEQUENCE_END_TEXT)
 
 def getRotheGoreAttack(count, adv):
     print(f"*Generating Rothe Gore Attacks*")
@@ -59,6 +77,7 @@ def getRotheGoreAttack(count, adv):
     damageType = "piercing"
     toHit = 6
     for i in range(count):
+        if (i != 0): input(BUFFER_TEXT)
         hitDice = DiceRolls.roll(20, adv)
         damageDice = DiceRolls.rollD(6) + 4
         chargeDamage = DiceRolls.rollD(6) + DiceRolls.rollD(6)
@@ -67,19 +86,22 @@ def getRotheGoreAttack(count, adv):
         if (hitDice == 20):
             damageDice += critDamage
             chargeDamage += chargeCritDamage
-            hitDice = "A CRITICAL!!"
+            hitDice = CRITICAL_HIT_TEXT
         else:
             hitDice = hitDice + toHit
-        print(f"Rothe {i+1} rolled {hitDice} for {damageDice} ({damageDice + chargeDamage} if charge) {damageType} damage")
-    print("*Sequence Ended*")
+        print(f"{AUTOMATION_COLOUR}Rothe {i+1} rolled {hitDice} for {damageDice} ({damageDice + chargeDamage} if charge) {damageType} damage{RESET}")
+    print(SEQUENCE_END_TEXT)
 
-def getElkAttack(attack, count, adv):
+def getElkAttack(attack):
     print(f"*Generating Elk {attack} Attacks*")
-    count = int(count)
     damageType = ""
     toHit = 5
-    for i in range(count):
-        hitDice = DiceRolls.roll(20, adv)
+    i = 1
+    while (True):
+        userInput = str(input(BUFFER_TEXT))
+        if (userInput == "exit"):
+            break
+        hitDice = DiceRolls.roll(20, "none")
         damageDice = 0
         critDamage = 0
         chargeDamage = DiceRolls.rollD(6) + DiceRolls.rollD(6)
@@ -100,15 +122,16 @@ def getElkAttack(attack, count, adv):
         if (hitDice == 20):
             damageDice += critDamage
             chargeDamage += chargeCritDamage
-            hitDice = "A CRITICAL!!"
+            hitDice = CRITICAL_HIT_TEXT
         else:
             hitDice = hitDice + toHit
         # print differs for each attack type
         if (attack == "ram"):
-            print(f"Elk {i+1} rolled {hitDice} for {damageDice} ({damageDice+chargeDamage}) {damageType} damage.")
+            print(f"{AUTOMATION_COLOUR}Elk {i} rolled {hitDice} for {damageDice} ({damageDice+chargeDamage}) {damageType} damage.{RESET}")
         else:
-            print(f"Elk {i+1} rolled {hitDice} for {damageDice} {damageType} damage.")
-    print("*Sequence Ended*")
+            print(f"{AUTOMATION_COLOUR}Elk {i} rolled {hitDice} for {damageDice} {damageType} damage.{RESET}")
+        i += 1
+    print(SEQUENCE_END_TEXT)
 
 def getGiantVultureMultiAttack(count, adv):
     print(f"*Generating Giant Vulture MultiAttacks*")
@@ -117,6 +140,7 @@ def getGiantVultureMultiAttack(count, adv):
     damageType2 = "slashing"
     toHit = 4
     for i in range(count):
+        if (i != 0): input(BUFFER_TEXT)
         hitDice1 = DiceRolls.roll(20, adv)
         hitDice2 = DiceRolls.roll(20, adv)
         damageDice1 = DiceRolls.rollD(4) + DiceRolls.rollD(4) + 2
@@ -126,17 +150,17 @@ def getGiantVultureMultiAttack(count, adv):
         # first attack
         if (hitDice1 == 20):
             damageDice1 += critDamage1
-            hitDice1 = "A CRITICAL!!"
+            hitDice1 = CRITICAL_HIT_TEXT
         else:
             hitDice1 = hitDice1 + toHit
         # second attack
         if (hitDice2 == 20):
             damageDice2 += critDamage2
-            hitDice2 = "A CRITICAL!!"
+            hitDice2 = CRITICAL_HIT_TEXT
         else:
             hitDice2 = hitDice2 + toHit
 
 
 
-        print(f"G.Vulture {i+1} rolled {hitDice1} for {damageDice1} {damageType1} damage and {hitDice2} for {damageDice2} {damageType2} damage")
-    print("*Sequence Ended*")
+        print(f"{AUTOMATION_COLOUR}G.Vulture {i+1} rolled {hitDice1} for {damageDice1} {damageType1} damage and {hitDice2} for {damageDice2} {damageType2} damage{RESET}")
+    print(SEQUENCE_END_TEXT)

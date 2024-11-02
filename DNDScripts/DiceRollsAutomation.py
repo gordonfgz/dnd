@@ -5,6 +5,9 @@ while True:
     # Prompt the user to enter the first number
     userInput = str(input("Enter [reps] [xdy] [adv/disadv/none]: "))
 
+    if userInput.lower() == "":
+        continue
+
     if userInput.lower() == 'end':
         break
 
